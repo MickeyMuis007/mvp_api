@@ -3,7 +3,8 @@ import colors from "colors";
 import dotenv from "dotenv";
 import express from "express";
 
-import mongoConnect from "./infrasturcture/dbs/mongodb/mongo.connect";
+// import mongoConnect from "./infrastructure/dbs/mongodb/mongo.connect";
+import sequelize from "./infrastructure/dbs/mysql/mysql.connect";
 import authMiddlewareRouter from "./presentation/middlewares/auth-routes.middleware";
 
 // Set configuration
@@ -15,7 +16,7 @@ import config from "./config";
 console.log("config: ".yellow, colors.yellow(config));
 
 // Connect to MongoDB with mongoose
-mongoConnect();
+// mongoConnect();
 
 // Express server
 const app = express();
@@ -30,4 +31,10 @@ app.use(authMiddlewareRouter);
 // Routes
 app.get("/hello", (req: any, res: any) => {
   res.send("Hello World!");
+});
+
+sequelize.sync().then((result) => {
+  console.log(`Sequelize connected: ${JSON.stringify(result)}`.green);
+}).catch((err) => {
+  console.log(`Sequelize error connecting: ${JSON.stringify(err)}`.red);
 });

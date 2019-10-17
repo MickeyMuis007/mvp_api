@@ -6,7 +6,7 @@ import objectPath from "object-path";
 import config from "../../../config";
 
 const connect = () => {
-  const dbStr = `${objectPath.get(config, "database.host", "http://localhost")}/${objectPath.get(config, "database.name", "")}`;
+  const dbStr = `${objectPath.get(config, "database.mongo_db.host", "http://localhost")}/${objectPath.get(config, "database.mongo_db.name", "")}`;
   console.log(dbStr.bgCyan);
   mongoose.connect(dbStr, {
     useNewUrlParser: true,
