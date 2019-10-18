@@ -9,16 +9,19 @@ export class AuthLogic {
       where: {
         username: username
       }
-    });
+    }) as UserModel;
 
-    console.log("User login:".rainbow, user);
-    const userFound = await User.findOne({ username: username });
-    if (userFound) {
-      await userFound.save();
-      const token = userFound.generateAuthToken();
-      return token;
+    if (user) {
+      return user.generateAuthToken();
     }
-    return "Not found";
+    return "Not Found";
+    // const userFound = await User.findOne({ username: username });
+    // if (userFound) {
+    //   await userFound.save();
+    //   const token = userFound.generateAuthToken();
+    //   return token;
+    // }
+    // return "Not found";
   }
 
   public register = async (newUser: IUser): Promise<any> => {
