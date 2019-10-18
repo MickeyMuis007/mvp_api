@@ -1,5 +1,6 @@
+import { hash } from "bcrypt";
 import jwt from "jsonwebtoken";
-import { BOOLEAN, DATE, INTEGER, Model, STRING } from "sequelize";
+import { BOOLEAN, INTEGER, Model, STRING } from "sequelize";
 
 import sequelize from "../../../infrastructure/dbs/mysql/mysql.connect";
 
@@ -43,7 +44,34 @@ UserModel.init({
     unique: true
   },
   password: {
-    type: STRING
+    type: STRING,
+    allowNull: false
   },
   isActive: BOOLEAN
-}, { sequelize, modelName: "user" });
+}, {
+  hooks: {
+    async beforeSave(model, options) {
+      console.log("Before save".rainbow);
+      model.updatedAt = new Date();
+
+      if (model.createdAt) {
+        model.createdAt = new Date();
+      }
+
+      if (model.isActive === null || model.isActive === undefined) {
+        model.isActive = false;
+      }
+
+      if (model.isNewRecord && model.password) {
+        try {
+          const salt = 10;
+          model.password = await hash(model.password, salt);
+        } catch (err) {
+          console.log(`Password failed to hash: ${JSON.stringify(err)}`.red);
+        }
+      }
+    }
+  },
+  sequelize,
+  modelName: "user"
+});

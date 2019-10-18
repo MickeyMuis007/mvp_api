@@ -33,7 +33,7 @@ app.get("/hello", (req: any, res: any) => {
   res.send("Hello World!");
 });
 
-sequelize.sync().then((result) => {
+sequelize.sync({ force: true }).then((result) => {
   console.log(`Sequelize connected: ${JSON.stringify(result)}`.green);
 }).catch((err) => {
   console.log(`Sequelize error connecting: ${JSON.stringify(err)}`.red);

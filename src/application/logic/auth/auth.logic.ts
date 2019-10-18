@@ -1,7 +1,7 @@
 import colors from "colors";
 
-import { UserModel } from "../../../domain/aggregates/user/user.model";
-import { IUser, User } from "../../../domain/aggregates/user/user.root-entity";
+import { IUserModel, UserModel } from "../../../domain/aggregates/user/user.model";
+// import { IUser, User } from "../../../domain/aggregates/user/user.root-entity";
 
 export class AuthLogic {
   public login = async ({username}): Promise<any> => {
@@ -24,9 +24,9 @@ export class AuthLogic {
     // return "Not found";
   }
 
-  public register = async (newUser: IUser): Promise<any> => {
+  public register = async (newUser: IUserModel): Promise<any> => {
     try {
-      const user = new User(newUser);
+      const user = new UserModel(newUser);
 
       const addedUser = await user.save();
       console.log("Succefully added".green);
