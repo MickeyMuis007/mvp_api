@@ -1,27 +1,25 @@
 import colors from "colors";
 
+import { compare } from "bcrypt";
+
 import { IUserModel, UserModel } from "../../../domain/aggregates/user/user.model";
-// import { IUser, User } from "../../../domain/aggregates/user/user.root-entity";
 
 export class AuthLogic {
-  public login = async ({username}): Promise<any> => {
+  public login = async ({ username, password }): Promise<any> => {
     const user = await UserModel.findOne({
       where: {
         username: username
       }
     }) as UserModel;
 
-    if (user) {
-      return user.generateAuthToken();
+    if (user && user.isActive) {
+      const validPassword = await compare(password, user.password || "");
+
+      if (validPassword) {
+        return user.generateAuthToken();
+      }
     }
-    return "Not Found";
-    // const userFound = await User.findOne({ username: username });
-    // if (userFound) {
-    //   await userFound.save();
-    //   const token = userFound.generateAuthToken();
-    //   return token;
-    // }
-    // return "Not found";
+    return "Invalid username or password";
   }
 
   public register = async (newUser: IUserModel): Promise<any> => {

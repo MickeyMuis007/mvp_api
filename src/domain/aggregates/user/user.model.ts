@@ -59,7 +59,7 @@ UserModel.init({
       }
 
       if (model.isActive === null || model.isActive === undefined) {
-        model.isActive = false;
+        model.isActive = true;
       }
 
       if (model.isNewRecord && model.password) {
