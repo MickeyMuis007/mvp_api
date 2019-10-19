@@ -1,6 +1,6 @@
 import colors from "colors";
 
-import { compare } from "bcrypt";
+import { compare } from "bcryptjs";
 
 import { IUserModel, UserModel } from "../../../domain/aggregates/user/user.model";
 

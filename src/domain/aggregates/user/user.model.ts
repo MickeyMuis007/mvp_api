@@ -1,4 +1,4 @@
-import { hash } from "bcrypt";
+import { hash } from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { BOOLEAN, INTEGER, Model, STRING } from "sequelize";
 
