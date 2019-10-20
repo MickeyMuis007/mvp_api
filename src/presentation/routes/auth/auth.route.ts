@@ -13,4 +13,6 @@ authRouter.post("/register", authController.register);
 
 authRouter.get("/logout", auth, authController.logout);
 
+authRouter.get("/test", (req, res) => "test");
+
 export default authRouter;
